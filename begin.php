@@ -39,29 +39,6 @@ function afficherTableau(){
         $query = $bdd -> prepare($SQL_Query);
         $query -> execute();
 
-        /*
-        $SQL_QuerySimple = 'SELECT idMatch as id, jourMatch as j, heureMatch as h, nomJoueur as n
-        FROM Matchs, Joueur
-        WHERE Joueur.idJoueur = Matchs.idJoueur1
-        OR Joueur.idJoueur = Matchs.idJoueur2
-        ORDER BY jourMatch, heureMatch';
-
-        $querySimple = $bdd -> prepare($SQL_QuerySimple);
-        $querySimple -> execute();
-
-        $SQL_QueryDouble = 'SELECT idMatch AS id, jourMatch AS j, heureMatch AS h, nomJoueur AS n
-                                FROM Matchs AS m
-                                JOIN Equipe_Joueurs AS eq ON m.idEquipe1 = eq.idEquipeJoueurs
-                                        OR m.idEquipe2 = eq.idEquipeJoueurs
-                                        JOIN Joueur ON Joueur.idJoueur = eq.idJoueur1
-                                                OR Joueur.idJoueur = eq.idJoueur2
-                                WHERE typeMatch =2
-                                ORDER BY j, h';
-
-        $queryDouble = $bdd -> prepare($SQL_QueryDouble);
-        $queryDouble -> execute();
-        $double = null;
-        */
                 while($line = $query -> fetch()){                               //Remplit le tableau "matrice" qui contient tous les matchs simples de la bd. Avec en colonnes les différents jours et en ligne la liste des matchs ce jour.
                         if($line["t"] == 1){
                                 $SQL_QuerySimple = 'SELECT idMatch as id, jourMatch as j, heureMatch as h, nomJoueur as n
@@ -290,6 +267,64 @@ function getVs($idMatch, $typeMatch){           //Retourne en texte le versus de
         }
 
         return $retour;
+}
+
+function getCourt($idMatch){
+        $bdd = Connect_db();
+        $SQL_Query = 'SELECT nomCourt
+                        From Court, Matchs
+                        WHERE Court.idCourt = Matchs.idCourt
+                        AND idMatch = '.$idMatch;
+
+        $query = $bdd -> prepare($SQL_Query);
+        $query -> execute();
+
+        while($nom = $query -> fetch()){
+                return $nom["nomCourt"];
+        }
+}
+
+function getJour($jourMatch){
+        switch($jourMatch){
+                case 1 : 
+                return "Lundi";
+                break;
+                case 2 :
+                return "Mardi";
+                break;
+                case 3 : 
+                return "Mercredi";
+                break;
+                case 4 :
+                return "Jeudi";
+                break;
+                case 5 : 
+                return "Vendredi";
+                break;
+                case 6 : 
+                return "Samedi";
+                break;
+                case 7 : 
+                return "Dimanche";
+                break;
+                default :
+                return "?";
+                break;
+        }
+}
+
+function getNbPlacesRestantes($idMatch){
+        $bdd = Connect_db();
+        $SQL_Query = 'SELECT count(noPlace) as n
+                        From Place
+                        WHERE idMatch = '.$idMatch;
+
+        $query = $bdd -> prepare($SQL_Query);
+        $query -> execute();
+
+        while($nb = $query -> fetch()){
+                return $nb["n"];
+        }
 }
 
 ?>

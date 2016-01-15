@@ -14,24 +14,25 @@
 
     <form <?php echo("action=\"recapitulatif.php?id=". $_GET['id'] ."\""); 	?> method="POST">
 
-    	<div class="selecPlaces">
+    	<div>
+    		<p class="middle"><label class="strong">Nombre de places restantes : </label><?php echo(getNbPlacesRestantes($_GET["id"])); ?></p>
 	    	<p class="middle">
-	    		Emplacement : 
+	    		<label class="strong">Emplacement : </label>
 		    	<select name="place">
-				    <p><option value="1">A</p>
-					<p><option value="2">B</p>
-					<p><option value="3">C</p>
-					<p><option value="4">E</p>
-					<p><option value="5">G</p>
-				    <p><option value="6">H</p>
-					<p><option value="7">I</p>
-					<p><option value="8">J</p>
-				    <p><option value="9">K</p>
-					<p><option value="10">L</p>
-					<p><option value="11">N</p>
+				    <p><option value="A">A</p>
+					<p><option value="B">B</p>
+					<p><option value="C">C</p>
+					<p><option value="E">E</p>
+					<p><option value="G">G</p>
+				    <p><option value="H">H</p>
+					<p><option value="I">I</p>
+					<p><option value="J">J</p>
+				    <p><option value="K">K</p>
+					<p><option value="L">L</p>
+					<p><option value="N">N</p>
 				</select>
 			</p>
-		    <p class="middle">Nombre(s) de place(s) : <input type="number" name="nbPlaces"></p>
+		    <p class="middle"><label class="strong">Nombre(s) de place(s) : </label><input type="number" name="nbPlaces"></p>
 		    <?php
 		    	if(isset($_GET['err'])){
 		    		echo("<p class='err'>Veuillez renseigner un nombre de places</p>");
