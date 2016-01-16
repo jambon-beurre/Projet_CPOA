@@ -4,6 +4,10 @@ function Connect_db(){
         $user="p1402965";
         $password="212498";
         $bdname="p1402965";
+        /*$host="localhost";
+        $user="root";
+        $password="";
+        $bdname="cpoa";*/
         try{
                 $bdd = new PDO('mysql:host='.$host.';dbname='.$bdname.
                         ';charset=utf8',$user,$password);
@@ -30,72 +34,86 @@ function afficherTableau(){
         $retour = '';
 
         $bdd = Connect_db();
-        $i = 0; $ligneMax = 0; $colMax = 0;
+        $i = 0; $ligneMax = 0; $colMax = 0;$matrice[0][0] = null;$count = 0;
         $match = new Match();
         $match->id = 0;
 
-        $SQL_Query = 'SELECT idMatch as id, typeMatch as t FROM Matchs order by jourMatch, heureMatch';
+        $SQL_Query = 'select max(c) as max from (select count(idMatch) as c from Matchs group by jourMatch) as yolo';
+
+        $query = $bdd -> prepare($SQL_Query);
+        $query -> execute();
+
+        while($line = $query -> fetch()){
+                $ligneMax = $line["max"];
+        }
+
+        $SQL_Query = 'SELECT idMatch as id, typeMatch as t, jourMatch as j FROM Matchs order by jourMatch, heureMatch';
 
         $query = $bdd -> prepare($SQL_Query);
         $query -> execute();
 
                 while($line = $query -> fetch()){                               //Remplit le tableau "matrice" qui contient tous les matchs simples de la bd. Avec en colonnes les différents jours et en ligne la liste des matchs ce jour.
+
+                        if($line["j"] != $colMax + 1){
+                                $colMax = $line["j"] - 1;                       //j représente la colonne à traiter, donc la journée. Quand on change de jour, on met à jour j et on réinitialise i
+                                $i = 0;
+                        }
+
                         if($line["t"] == 1){
-                                $SQL_QuerySimple = 'SELECT idMatch as id, jourMatch as j, heureMatch as h, nomJoueur as n
+                                $SQL_QuerySimple = 'SELECT heureMatch as h, nomJoueur as n
                                 FROM Matchs, Joueur
-                                WHERE Joueur.idJoueur = Matchs.idJoueur1
-                                OR Joueur.idJoueur = Matchs.idJoueur2
+                                WHERE (Joueur.idJoueur = Matchs.idJoueur1
+                                OR Joueur.idJoueur = Matchs.idJoueur2)
+                                AND idMatch = '.$line["id"].'
                                 ORDER BY jourMatch, heureMatch';
 
                                 $querySimple = $bdd -> prepare($SQL_QuerySimple);
                                 $querySimple -> execute();
 
+                                $count = 0;
+
                                 while($simple = $querySimple -> fetch()){
-                                        if($simple["j"] != $colMax + 1){
-                                                $colMax = $simple["j"] - 1;                       //j représente la colonne à traiter, donc la journée. Quand on change de jour, on met à jour j et on réinitialise i
-                                                $i = 0;
-                                        }
-                                        if($match->id != $simple["id"]){
+                                        
+                                        if($count == 0){
                                                 $match = new Match();
-                                                $match->id = $simple["id"];
+                                                $match->id = $line["id"];
                                                 $match->type = 1;
-                                                $match->jourMatch = $simple["j"];
+                                                $match->jourMatch = $line["j"];
                                                 $match->heureMatch = $simple["h"];
                                                 $match->joueur1 = $simple["n"];
+                                                $match->joueur2 = null;
                                                 $matrice[$i][$colMax] = $match;
 
-                                                $i++;
+                                                $count++;
                                         }
                                         
                                         else{
-                                                $match->joueur2 = $simple["n"];
+                                                $matrice[$i][$colMax]->joueur2 = $simple["n"];
+                                                $i++;
                                         }
                                 }
                         }
 
                         else{
-                                $SQL_QueryDouble = 'SELECT idMatch AS id, jourMatch AS j, heureMatch AS h, nomJoueur AS n
+                                $SQL_QueryDouble = 'SELECT heureMatch AS h, nomJoueur AS n
                                 FROM Matchs AS m
                                 JOIN Equipe_Joueurs AS eq ON m.idEquipe1 = eq.idEquipeJoueurs
                                         OR m.idEquipe2 = eq.idEquipeJoueurs
                                         JOIN Joueur ON Joueur.idJoueur = eq.idJoueur1
                                                 OR Joueur.idJoueur = eq.idJoueur2
-                                WHERE typeMatch =2
-                                ORDER BY j, h';
+                                WHERE idMatch = '.$line["id"];
 
                                 $queryDouble = $bdd -> prepare($SQL_QueryDouble);
                                 $queryDouble -> execute();
 
+                                $count = 0;
                                 while($double = $queryDouble -> fetch()){
-                                        if($double["j"] != $colMax + 1){
-                                                $colMax = $double["j"] - 1;
-                                                $i = 0;
-                                        }
-                                        if($match->id != $double["id"]){
+
+                                        if($count == 0){
                                                 $match = new Match();
-                                                $match->id = $double["id"];
+                                                $match->id = $line["id"];
                                                 $match->type = 2;
-                                                $match->jourMatch = $double["j"];
+                                                $match->jourMatch = $line["j"];
                                                 $match->heureMatch = $double["h"];
                                                 $match->joueur1 = $double["n"];
                                                 $matrice[$i][$colMax] = $match;
@@ -103,31 +121,31 @@ function afficherTableau(){
                                                 $match->joueur4 == null;
                                                 $match->joueur2 == null;
 
-                                                $i++;
+                                                $count++;
                                         }
                                         
                                         else {
-                                                if($match->joueur2 == null){
+                                                if($count == 1){
                                                         $match->joueur2 = $double["n"];
+                                                        $count++;
                                                 }
-                                                else if($match->joueur3 == null){
+                                                else if($count == 2){
                                                         $match->joueur3 = $double["n"];
+                                                        $count++;
                                                 }
-                                                else if($match->joueur4 == null){
+                                                else if($count == 3){
                                                         $match->joueur4 = $double["n"];
+                                                        $count++;
+                                                        $i++;
                                                 }
                                         }
                                 }
-                        }
-
-                        if($i > $ligneMax){
-                                $ligneMax = $i;
                         }
                 }
 
                 $i = 0; $j = 0;
                 
-                while($i <= $ligneMax){
+                while($i < $ligneMax){
                         $retour .= '<tr>';
                         while($j <= 6){
                                 $data = '';
@@ -153,7 +171,7 @@ function afficherTableau(){
                                         }
                                         $data .= '</a></div>';
                                 }
-                                
+
                                 $retour .= '<td>';
                                 $retour .= $data;
                                 $retour .= '</td>';
@@ -373,6 +391,45 @@ function reduction($cp){
                 return $reduction["r"];
         }
         return(-1);
+}
+
+function reserver($idMatch, $nbPlaces, $place){
+        $places = array();
+        $i = 0;
+        $retour='';
+
+        $bdd = Connect_db();
+        $SQL_Query = "SELECT noPlace as n
+                        From Place
+                        WHERE idMatch = ".$idMatch."
+                        AND reserve = 0
+                        AND emplacement = '".$place."'
+                        LIMIT ".$nbPlaces;
+
+        $query = $bdd -> prepare($SQL_Query);
+        $query -> execute();
+
+        while($line = $query -> fetch()){
+                $places[$i] = $line["n"];
+                $i++;
+        }
+
+        for($i = 0; $i < count($places); $i++){
+                $SQL_Query = "UPDATE Place SET reserve = 1
+                        WHERE noPlace = ".$places[$i];
+
+                $query = $bdd -> prepare($SQL_Query);
+                $query -> execute();
+
+                if($i != count($places) - 1){
+                        $retour .= $places[$i] . ", ";
+                }
+                else{
+                        $retour .= $places[$i];
+                }
+        }
+
+        return $retour;
 }
 
 ?>
