@@ -58,12 +58,23 @@ footer {position: absolute; bottom: 0; left: 0; right: 0}
 }
 
 .err{
-	text-align:center;
 	color:red;
+	font-size: 14pt;
+	transition:0.2s;
+}
+
+.valide{
+	color:#00BB33;
+	font-size: 14pt;
+	transition:0.2s;
 }
 
 .strong{
 	font-weight: bold;
 	font-size: 14pt;
 	color:#d88100;
+}
+
+.underline{
+	text-decoration: underline;
 }

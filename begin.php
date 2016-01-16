@@ -345,11 +345,11 @@ function getPrixTotal($idMatch, $place, $nbPlaces){
 
 function nbPlacesOk($idMatch, $nbPlaces, $place){
         $bdd = Connect_db();
-        $SQL_Query = 'SELECT count(noPlace) as n
+        $SQL_Query = "SELECT count(noPlace) as n
                         From Place
-                        WHERE idMatch = '.$idMatch.'
+                        WHERE idMatch = ".$idMatch."
                         AND reserve = 0
-                        AND emplacement = \''.$place.'\'';
+                        AND emplacement = '".$place."'";
 
         $query = $bdd -> prepare($SQL_Query);
         $query -> execute();
@@ -359,6 +359,22 @@ function nbPlacesOk($idMatch, $nbPlaces, $place){
                 else return $nb["n"];
         }
 }
+
+function reduction($cp){
+        $bdd = Connect_db();
+        $SQL_Query = 'SELECT reduction as r
+                        From Promotion
+                        WHERE codePromo = '.$cp;
+
+        $query = $bdd -> prepare($SQL_Query);
+        $query -> execute();
+
+        while($reduction = $query -> fetch()){
+                return $reduction["r"];
+        }
+        return(-1);
+}
+
 ?>
 
         <!DOCTYPE html>

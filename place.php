@@ -36,10 +36,10 @@
 		    <?php
 		    	if(isset($_GET['err'])){
 		    		if($_GET['err'] == 1){
-		    			echo("<p class='err'>Veuillez renseigner un nombre de places</p>");
+		    			echo("<p class='err middle'>Veuillez renseigner un nombre de places</p>");
 		    		}
 		    		else if($_GET['err'] == 2 && isset($_GET["nbRest"])){
-		    			echo("<p class='err'>Il n'y a plus que ".$_GET["nbRest"]." places restantes pour cet emplacement.</p>");
+		    			echo("<p class='err middle'>Il n'y a plus que ".$_GET["nbRest"]." places restantes pour cet emplacement.</p>");
 		    		}
 		    	}
 		    ?>
