@@ -327,6 +327,38 @@ function getNbPlacesRestantes($idMatch){
         }
 }
 
+function getPrixTotal($idMatch, $place, $nbPlaces){
+        $bdd = Connect_db();
+        $SQL_Query = 'SELECT prix as p
+                        From Place
+                        WHERE idMatch = '.$idMatch.'
+                        AND emplacement = \''.$place.'\'
+                        LIMIT 1';
+
+        $query = $bdd -> prepare($SQL_Query);
+        $query -> execute();
+
+        while($prix = $query -> fetch()){
+                return $prix["p"]*$nbPlaces;
+        }
+}
+
+function nbPlacesOk($idMatch, $nbPlaces, $place){
+        $bdd = Connect_db();
+        $SQL_Query = 'SELECT count(noPlace) as n
+                        From Place
+                        WHERE idMatch = '.$idMatch.'
+                        AND reserve = 0
+                        AND emplacement = \''.$place.'\'';
+
+        $query = $bdd -> prepare($SQL_Query);
+        $query -> execute();
+
+        while($nb = $query -> fetch()){
+                if($nb["n"] >= $nbPlaces) return -1;
+                else return $nb["n"];
+        }
+}
 ?>
 
         <!DOCTYPE html>

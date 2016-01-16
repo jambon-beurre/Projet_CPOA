@@ -9,6 +9,11 @@
         $_COOKIE["place"] = $_POST['place'];
         setcookie("idMatch", $_GET['id'], time()+86400);
         $_COOKIE["idMatch"] = $_GET['id'];
+
+        $placesOk = nbPlacesOk($_COOKIE["idMatch"], $_COOKIE["nbPlaces"], $_COOKIE["place"]);
+        if($placesOk >= 0){
+            header('Location: place.php?id='.$_GET["id"]."&err=2&nbRest=".$placesOk);
+        }
     }
     else{
         header('Location: place.php?id='.$_GET["id"]."&err=1");
@@ -65,7 +70,7 @@
         </form>
 
         <p>
-            <label class = 'strong'>Prix :</label>
+            <label class = 'strong'>Prix : </label><?php echo(getPrixTotal($_COOKIE["idMatch"], $_COOKIE["place"], $_COOKIE["nbPlaces"])." €"); ?>
         </p>
 
         <button type="button" onclick="location.href='validation.php';">Valider</button>

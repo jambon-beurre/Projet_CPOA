@@ -5,8 +5,8 @@
 	if(isset($_GET['id']) && $_GET['id'] != null){
 ?>
 <div>
-<P style="text-align:center">
-<img src="images/stade.png" alt="Bannière" height="500" width="700" a>
+<P class="middle">
+<img src="images/stade.png" alt="Bannière" height="500" width="700">
 </p>
 </div>
 
@@ -32,10 +32,15 @@
 					<p><option value="N">N</p>
 				</select>
 			</p>
-		    <p class="middle"><label class="strong">Nombre(s) de place(s) : </label><input type="number" name="nbPlaces"></p>
+		    <p class="middle"><label class="strong">Nombre(s) de place(s) : </label><input type="number" name="nbPlaces" min="1"></p>
 		    <?php
 		    	if(isset($_GET['err'])){
-		    		echo("<p class='err'>Veuillez renseigner un nombre de places</p>");
+		    		if($_GET['err'] == 1){
+		    			echo("<p class='err'>Veuillez renseigner un nombre de places</p>");
+		    		}
+		    		else if($_GET['err'] == 2 && isset($_GET["nbRest"])){
+		    			echo("<p class='err'>Il n'y a plus que ".$_GET["nbRest"]." places restantes pour cet emplacement.</p>");
+		    		}
 		    	}
 		    ?>
 		    <p class="middle"><button type="submit">Valider</button></p>
