@@ -445,6 +445,7 @@ function getNbPlacesRestantesEmplacement($idMatch){
         $array["K"] = 0;
         $array["L"] = 0;
         $array["N"] = 0;
+        $array["Libre"] = 0;
 
         $bdd = Connect_db();
         $SQL_Query = 'SELECT count(noPlace) as n, emplacement as e

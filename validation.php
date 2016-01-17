@@ -11,7 +11,8 @@
 		
 		header('Location: validation.php?over=1');
 	}
-	else echo("<p>Vos/Votre numéro(s) de place(s) : " . $_COOKIE["placesAttribuees"] . "</p>");
+	else if(strcmp($_COOKIE["place"], 'Libre') != 0) echo("<p>Votre/Vos numéro(s) de place(s) : " . $_COOKIE["placesAttribuees"] . "</p>");
+	else echo("<p>Vous avez réservé ".$_COOKIE["nbPlaces"]." place(s) en emplacement libre.");
 ?>
 
 <?php include("end.php"); ?>

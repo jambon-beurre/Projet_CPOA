@@ -40,6 +40,7 @@ function errNbPlaces(){
 				    <p><option value="K" <?php if(errNbPlaces() && strcmp($_COOKIE["place"], 'K') == 0) echo("selected"); ?>>K - <?php echo($nbPlaces["K"]); ?> places restantes</p>
 					<p><option value="L" <?php if(errNbPlaces() && strcmp($_COOKIE["place"], 'L') == 0) echo("selected"); ?>>L - <?php echo($nbPlaces["L"]); ?> places restantes</p>
 					<p><option value="N" <?php if(errNbPlaces() && strcmp($_COOKIE["place"], 'N') == 0) echo("selected"); ?>>N - <?php echo($nbPlaces["N"]); ?> places restantes</p>
+					<p><option value="Libre" <?php if(errNbPlaces() && strcmp($_COOKIE["place"], 'Libre') == 0) echo("selected"); ?>>Libre - <?php echo($nbPlaces["Libre"]); ?> places restantes</p>
 				</select>
 				<div id="display"></div>
 
@@ -87,6 +88,9 @@ function errNbPlaces(){
 					    		i = 9;
 					    		break;
 					    	case 'N':
+					    		i = 10;
+					    		break;
+					    	case 'Libre':
 					    		i = 10;
 					    		break;
 					    }
