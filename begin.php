@@ -463,6 +463,25 @@ function getNbPlacesRestantesEmplacement($idMatch){
         return $array;
 }
 
+function getPrixPlaces($idMatch){
+        $array[0] = 0;
+        $bdd = Connect_db();
+        $SQL_Query = 'SELECT prix as p, emplacement as e
+                        From Place
+                        WHERE idMatch = '.$idMatch.'
+                        GROUP BY e, p';
+
+        $query = $bdd -> prepare($SQL_Query);
+        $query -> execute();
+        $i = 0;
+        while($nb = $query -> fetch()){
+                $array[$i] = $nb["p"];
+                $i++;
+        }
+
+        return $array;
+}
+
 ?>
 
         <!DOCTYPE html>
