@@ -433,6 +433,36 @@ function reserver($idMatch, $nbPlaces, $place){
         return $retour;
 }
 
+function getNbPlacesRestantesEmplacement($idMatch){
+        $array["A"] = 0;
+        $array["B"] = 0;
+        $array["C"] = 0;
+        $array["E"] = 0;
+        $array["G"] = 0;
+        $array["H"] = 0;
+        $array["I"] = 0;
+        $array["J"] = 0;
+        $array["K"] = 0;
+        $array["L"] = 0;
+        $array["N"] = 0;
+
+        $bdd = Connect_db();
+        $SQL_Query = 'SELECT count(noPlace) as n, emplacement as e
+                        From Place
+                        WHERE reserve = 0
+                        AND idMatch = '.$idMatch.'
+                        GROUP BY e';
+
+        $query = $bdd -> prepare($SQL_Query);
+        $query -> execute();
+
+        while($nb = $query -> fetch()){
+                $array[$nb["e"]] = $nb["n"];
+        }
+
+        return $array;
+}
+
 ?>
 
         <!DOCTYPE html>

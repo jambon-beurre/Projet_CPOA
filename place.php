@@ -26,17 +26,18 @@ function errNbPlaces(){
 	    	<p class="middle">
 	    		<label class="strong">Emplacement : </label>
 		    	<select name="place">
-				    <p><option value="A" <?php if(errNbPlaces() && strcmp($_COOKIE["place"], 'A') == 0) echo("selected"); ?>>A</p>
-					<p><option value="B" <?php if(errNbPlaces() && strcmp($_COOKIE["place"], 'B') == 0) echo("selected"); ?>>B</p>
-					<p><option value="C" <?php if(errNbPlaces() && strcmp($_COOKIE["place"], 'C') == 0) echo("selected"); ?>>C</p>
-					<p><option value="E" <?php if(errNbPlaces() && strcmp($_COOKIE["place"], 'E') == 0) echo("selected"); ?>>E</p>
-					<p><option value="G" <?php if(errNbPlaces() && strcmp($_COOKIE["place"], 'G') == 0) echo("selected"); ?>>G</p>
-				    <p><option value="H" <?php if(errNbPlaces() && strcmp($_COOKIE["place"], 'H') == 0) echo("selected"); ?>>H</p>
-					<p><option value="I" <?php if(errNbPlaces() && strcmp($_COOKIE["place"], 'I') == 0) echo("selected"); ?>>I</p>
-					<p><option value="J" <?php if(errNbPlaces() && strcmp($_COOKIE["place"], 'J') == 0) echo("selected"); ?>>J</p>
-				    <p><option value="K" <?php if(errNbPlaces() && strcmp($_COOKIE["place"], 'K') == 0) echo("selected"); ?>>K</p>
-					<p><option value="L" <?php if(errNbPlaces() && strcmp($_COOKIE["place"], 'L') == 0) echo("selected"); ?>>L</p>
-					<p><option value="N" <?php if(errNbPlaces() && strcmp($_COOKIE["place"], 'N') == 0) echo("selected"); ?>>N</p>
+		    		<?php $nbPlaces = getNbPlacesRestantesEmplacement($_GET["id"]); ?>
+				    <p><option value="A" <?php if(errNbPlaces() && strcmp($_COOKIE["place"], 'A') == 0) echo("selected"); ?>>A - <?php echo($nbPlaces["A"]); ?> places restantes</p>
+					<p><option value="B" <?php if(errNbPlaces() && strcmp($_COOKIE["place"], 'B') == 0) echo("selected"); ?>>B - <?php echo($nbPlaces["B"]); ?> places restantes</p>
+					<p><option value="C" <?php if(errNbPlaces() && strcmp($_COOKIE["place"], 'C') == 0) echo("selected"); ?>>C - <?php echo($nbPlaces["C"]); ?> places restantes</p>
+					<p><option value="E" <?php if(errNbPlaces() && strcmp($_COOKIE["place"], 'E') == 0) echo("selected"); ?>>E - <?php echo($nbPlaces["E"]); ?> places restantes</p>
+					<p><option value="G" <?php if(errNbPlaces() && strcmp($_COOKIE["place"], 'G') == 0) echo("selected"); ?>>G - <?php echo($nbPlaces["G"]); ?> places restantes</p>
+				    <p><option value="H" <?php if(errNbPlaces() && strcmp($_COOKIE["place"], 'H') == 0) echo("selected"); ?>>H - <?php echo($nbPlaces["H"]); ?> places restantes</p>
+					<p><option value="I" <?php if(errNbPlaces() && strcmp($_COOKIE["place"], 'I') == 0) echo("selected"); ?>>I - <?php echo($nbPlaces["I"]); ?> places restantes</p>
+					<p><option value="J" <?php if(errNbPlaces() && strcmp($_COOKIE["place"], 'J') == 0) echo("selected"); ?>>J - <?php echo($nbPlaces["J"]); ?> places restantes</p>
+				    <p><option value="K" <?php if(errNbPlaces() && strcmp($_COOKIE["place"], 'K') == 0) echo("selected"); ?>>K - <?php echo($nbPlaces["K"]); ?> places restantes</p>
+					<p><option value="L" <?php if(errNbPlaces() && strcmp($_COOKIE["place"], 'L') == 0) echo("selected"); ?>>L - <?php echo($nbPlaces["L"]); ?> places restantes</p>
+					<p><option value="N" <?php if(errNbPlaces() && strcmp($_COOKIE["place"], 'N') == 0) echo("selected"); ?>>N - <?php echo($nbPlaces["N"]); ?> places restantes</p>
 				</select>
 			</p>
 		    <p class="middle"><label class="strong">Nombre(s) de place(s) : </label><input type="number" name="nbPlaces" min="1"></p>
