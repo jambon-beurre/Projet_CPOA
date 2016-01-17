@@ -335,7 +335,8 @@ function getNbPlacesRestantes($idMatch){
         $bdd = Connect_db();
         $SQL_Query = 'SELECT count(noPlace) as n
                         From Place
-                        WHERE idMatch = '.$idMatch;
+                        WHERE reserve = 0
+                        AND idMatch = '.$idMatch;
 
         $query = $bdd -> prepare($SQL_Query);
         $query -> execute();
