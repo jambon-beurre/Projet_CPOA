@@ -2,6 +2,7 @@
 include("begin.php");
 
 ?>
+
 <h1 class='middle'>Planning des matchs</h1>
 <table>
 	<col>

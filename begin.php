@@ -210,13 +210,13 @@ function getHeure($creneau){
 function getTour($jourMatch){
         switch($jourMatch){
                 case 1 : 
-                return "16è de finale";
+                return "1/16 de finale";
                 break;
                 case 2 :
-                return "16è de finale";
+                return "1/16 de finale";
                 break;
                 case 3 : 
-                return "8è de finale";
+                return "1/8 de finale";
                 break;
                 case 4 :
                 return "1/4 de finale";
