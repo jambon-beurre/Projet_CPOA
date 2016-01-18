@@ -12,9 +12,10 @@ function errNbPlaces(){
 	if(isset($_GET['id']) && $_GET['id'] != null){
 		$prixPlaces = getPrixPlaces($_GET['id']);
 ?>
+<h1 class='middle'>Choix de la place</h1>
 <div>
 <P class="middle">
-<img src="images/stade.png" alt="Bannière" height="500" width="700">
+<img src="images/stade.png" alt="Bannière" height="430">
 </p>
 </div>
 

@@ -47,7 +47,8 @@
     }
 
 ?>
-<h1>Récapitulatif</h1>
+<div class='marg'>
+    <h1>Récapitulatif</h1>
     <div class="contour">
         <p>
             <label class = 'strong'>Tour : </label><?php echo(getTour($_COOKIE["jourMatch"])); ?>
@@ -104,7 +105,7 @@
         <button type="button" onclick="location.href='validation.php';">Valider</button>
     </div>
     <p><a class="noStyle underline"<?php echo ('href="place.php?id='.$_GET["id"].'"'); ?>>Annuler et retourner à la page précédente</a></p>
-
+</div>
 	
 	
 <?php include("end.php"); ?>
