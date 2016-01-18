@@ -4,6 +4,8 @@
 	<h1>Merci pour cet achat!</h1>
 
 	<?php
+		$places = "";
+
 		if(!isset($_GET["over"])){
 			$places = reserver($_COOKIE['idMatch'], $_COOKIE['nbPlaces'], $_COOKIE['place']);
 
@@ -12,8 +14,14 @@
 			
 			header('Location: validation.php?over=1');
 		}
-		else if(strcmp($_COOKIE["place"], 'Libre') != 0) echo("<p>Votre/Vos numéro(s) de place(s) : " . $_COOKIE["placesAttribuees"] . "</p>");
-		else echo("<p>Vous avez réservé ".$_COOKIE["nbPlaces"]." place(s) en emplacement libre.");
+		else if(strcmp($_COOKIE["place"], 'Libre') != 0) {
+			echo("<p>Votre/Vos numéro(s) de place(s) : " . $_COOKIE["placesAttribuees"] . "</p>");
+			$places = $_COOKIE["placesAttribuees"];
+		}
+		else {
+			echo("<p>Vous avez réservé ".$_COOKIE["nbPlaces"]." place(s) en emplacement libre.");
+			$places = "Placement libre";
+		}
 	?>
 </div>
 
@@ -65,12 +73,15 @@ $html='
 <tr>
 <td width="200" height="50">Prix total</td><td width="400" height="50">'.$_COOKIE["prix"].' euros</td>
 </tr>
+<tr>
+<td width="200" height="50">Numeros de place</td><td width="400" height="50">'.$places.'</td>
+</tr>
 </table>';
 
 $pdf->WriteHTML($html);
 $pdf->Output("F","./factures/Facture n".$idFacture.".pdf");
 
 ?>
-<div class='marg'><a href=<?php echo('"pdf.php?pdf='.$idFacture.'"'); ?>>Télécharger la facture</a></div>
+<div class='marg'><a target="_blank" href=<?php echo('"pdf.php?pdf='.$idFacture.'"'); ?>>Télécharger la facture</a></div>
 
 <?php include("end.php"); ?>
